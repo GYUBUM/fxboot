@@ -16,7 +16,7 @@ public class CustomSiteMeshFilter extends ConfigurableSiteMeshFilter {
 			.addExcludedPath("/h2-console/**")
 			.addExcludedPath("/security/**")
 			.addExcludedPath("/popup/**")
-			.addExcludedPath("/files/**")
-			.addExcludedPath("/");
+			.addExcludedPath("/files/**");
+//			.addExcludedPath("/");
     }
 }
