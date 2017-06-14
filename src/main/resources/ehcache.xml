@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:noNamespaceSchemaLocation="ehcache.xsd">
+		 
+	<defaultCache
+		maxElementsInMemory="10000"
+		eternal="false"
+		timeToIdleSeconds="1200"
+		timeToLiveSeconds="1200"
+		diskExpiryThreadIntervalSeconds="1200"
+		memoryStoreEvictionPolicy="LRU"
+	/>
+	
+	<cache name="com.flexink.domain.menu.Menu"
+		   maxElementsInMemory="1000"
+		   eternal="false"
+		   timeToIdleSeconds="600"
+		   timeToLiveSeconds="600"
+		   overflowToDisk="false"
+	/>
+	
+	<cache name="SampleCache"
+		   timeToLiveSeconds="600"
+	/>
+	
+	<cache name="commonCode"
+		   maxElementsInMemory="500"
+		   eternal="false"
+		   timeToIdleSeconds="600"
+		   timeToLiveSeconds="600"
+		   overflowToDisk="false"
+	/>
+	
+	<cache name="menuCode"
+		   maxElementsInMemory="200"
+		   eternal="false"
+		   timeToIdleSeconds="600"
+		   timeToLiveSeconds="600"
+		   overflowToDisk="false"
+	/>
+	
+
+	
+	
+</ehcache>
+
+
+<!--
+	name: 캐쉬 이름
+	maxEntriesLocalHeap: 메모리에 생성될 객체의 최대 수를 설정한다. 0=제한없음
+	maxEntriesLocalDisk: 디스크(DiskStore)에 저장될 객체의 최대 수를 설정한다. 0=제한없음
+	eternal: 저장된 캐시를 제거할지 여부를 설정한다. true 인 경우 저장된 캐시는 제거되지 않으며 timeToIdleSeconds, timeToLiveSeconds 설정은 무시된다. (default=false)
+	timeToIdleSeconds: 해당 시간 동안 캐쉬가 사용되지 않으면 삭제된다. 0은 삭제되지 않는 다. 단 eternal=false 인 경우에만 유효하다.
+	timeToLiveSeconds: 해당 시간이 지나면 캐쉬는 삭제된다. 0은 삭제되지 않는 다. 단 eternal=false 인 경우에만 유효하다.
+	overflowToDisk: 메모리 overflow시 디스크에 저장 여부.
+	diskExpiryThreadIntervalSeconds: 디스크(DiskStore)에 저장된 캐시들을 정리하기 위한 작업의 실행 간격 시간을 설정한다. 기본값은 120초
+	diskSpoolBufferSizeMB: 스풀버퍼에 대한 디스크(DiskStore) 크기 설정한다. OutOfMemory 에러가 발생 시 설정한 크기를 낮추는 것이 좋다.
+	clearOnFlush: flush() 메서드가 호출되면 메모리(MemoryStore)가 삭제할지 여부를 설정한다. 기본값은 true 이며, 메모리(MemoryStore)는 삭제된다.
+	memoryStoreEvictionPolicy : maxEntriesLocalHeap 설정 값에 도달했을때 설정된 정책에 따리 객체가 제거되고 새로 추가된다.
+		LRU - 데이터의 접근 시점을 기준으로 최근 접근 시점이 오래된 데이터부터 삭제
+		LFU - 데이터의 이용 빈도 수를 기준으로 이용 빈도가 가장 낮은 것부터 삭제
+		FIFO - 먼저 저장된 데이터를 우선 삭제
+ -->

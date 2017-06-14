@@ -1,0 +1,208 @@
+
+###### 공통 설정 ######
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  application:
+    name: FXBoot
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 8192Mb
+      max-request-size: 8192Mb
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+    dispatch-trace-request: true
+    dispatch-options-request: true
+    locale: ko_KR
+    servlet:
+      load-on-startup: 1
+    view:
+      prefix: /WEB-INF/view
+      suffix: .jsp
+  # DB 정보
+  datasource: 
+    initialize: true
+    type: com.zaxxer.hikari.HikariDataSource                    # Hikari 커텍션풀
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy    # query로그 정렬
+    hikari:
+      idle-timeout: 10000
+      connection-init-sql: SELECT 1 FROM DUAL
+  # Profile
+  profiles:
+    active: local                                               # profile 수동 설정
+  # JPA
+  jpa:
+    properties:
+      hibernate: 
+        cache: 
+          use_second_level_cache: true
+          use_query_cache: true
+          region: 
+            factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+        generate_statistics: true
+      javax: 
+        persistence: 
+          sharedCache: 
+            mode: ALL
+    open-in-view: false
+    
+# Security
+security:
+  basic:
+    authorize-mode: role
+    enabled: false
+    path: /**
+    realm: Spring
+  filter-order: 0
+  filter-dispatcher-types: ASYNC, FORWARD, INCLUDE, REQUEST
+  enable-csrf: true
+  headers:
+    cache: true
+    content-type: true
+    frame: false
+    xss: false
+  require-ssl: false
+  sessions: stateless
+
+# Actuator
+management:
+  context-path:
+    /actuator 
+  security:
+    enabled: true
+    roles:
+      - ROLE_SYSTEM
+endpoints:
+  enabled: true
+  actuator:
+    enabled: true
+    
+# Mybatis
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.flexink.vo, com.flexink.domain, com.flexink.common.utils 
+  configuration:
+    call-setters-on-nulls: true 
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 30
+
+# Log Level
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: ERROR
+    org.hibernate.SQLQuery: DEBUG
+    com.flexink: DEBUG
+    jdbc.sqlonly: DEBUG
+    jdbc.resultsettable: DEBUG
+
+# flyway
+flyway:
+  enabled: false
+  
+  
+#database-platform: org.hibernate.dialect.Oracle10gDialect
+#url: jdbc:log4jdbc:oracle:thin:@192.168.0.238:1521:orcl
+
+#database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#url: jdbc:log4jdbc:mysql://192.168.0.238:3306/sample?characterEncoding=UTF-8
+
+#database-platform: org.hibernate.dialect.H2Dialect
+#url: jdbc:log4jdbc:h2:~/test/db
+
+---
+###### 로컬 환경 ######
+server:
+  context-path: /fxboot
+spring:
+  profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect #dialect
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  # DB 정보    
+  datasource:
+    initialize: true
+    continue-on-error: false
+    url: jdbc:log4jdbc:h2:~/test/db;MODE=mysql
+    username: sa
+    password: 
+
+---
+###### 개발 환경 ######
+spring:
+  profiles: development
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  # DB 정보    
+  datasource:
+    initialize: false
+    url: jdbc:log4jdbc:mysql://192.168.0.238:3306/sample?characterEncoding=UTF-8
+    username: root
+    password: Mkdo7860!
+    
+flyway:
+  enabled: true
+  locations: classpath:db/migration/mysql
+  #baseline-on-migrate: true  #초기 구동시에만 true
+  
+# Log Level
+logging:
+  level: 
+    root: warn
+    org.springframework.web: warn
+    org.hibernate.SQLQuery: error
+    com.flexink: debug
+    jdbc.sqlonly: debug
+    jdbc.resultsettable: debug
+    
+---
+###### 운영 환경 ######
+spring:
+  profiles: production
+  jpa:
+    hibernate:
+      ddl-auto: none    
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+  h2:
+    console:
+      enabled: false
+  # DB 정보    
+  datasource: 
+    url: jdbc:log4jdbc:oracle:thin:@192.168.0.238:1521:orcl
+    username: fxboot
+    password: fxboot
+
+flyway:
+  enabled: true
+  locations: classpath:db/migration/oracle
+  baseline-on-migrate: true  #초기 구동시에만 true
+    
+# Log Level
+logging:
+  level:
+    root: warn
+    org.springframework.web: warn
+    org.hibernate.SQLQuery: error
+    com.flexink: warn
+    jdbc.sqlonly: warn
+    jdbc.resultsettable: warn
+
+    
+#profile 환경설정   http://jsonobject.tistory.com/220

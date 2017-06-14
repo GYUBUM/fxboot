@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+
+	<appender name="dailyRollingFileAppender"	class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<prudent>true</prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/logs/base/%d{yyyy-MM}/applicatoin.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter> -->
+
+		<encoder>
+			<pattern>%d{yyyy:MM:dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{35} : %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework.web" level="ERROR" />
+	<logger name="org.thymeleaf" level="ERROR" />
+	<logger name="org.hibernate.SQL" level="ERROR" />
+	<logger name="org.quartz.core" level="ERROR" />
+	<logger name="org.h2.server.web" level="ERROR" />
+	
+	<!-- log4jdbc-log4j2 -->
+    <logger name="jdbc.sqlonly"        level="DEBUG"/>
+    <logger name="jdbc.sqltiming"      level="ERROR"/>
+    <logger name="jdbc.audit"          level="ERROR"/>
+    <logger name="jdbc.resultset"      level="ERROR"/>
+    <logger name="jdbc.resultsettable" level="DEBUG"/>
+    <logger name="jdbc.connection"     level="ERROR"/>
+
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="dailyRollingFileAppender" />
+	</root>
+	
+	
+</configuration>
+
